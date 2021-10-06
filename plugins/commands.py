@@ -1,17 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (C) @subinps
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Affero General Public License for more details.
-
-# You should have received a copy of the GNU Affero General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# Copyright (C) @HariyonoRizki2
 
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaDocument
 from plugins.controls import is_admin
@@ -21,18 +9,18 @@ from config import Config
 from logger import LOGGER
 import os
 
-HOME_TEXT = "<b>Hey  [{}](tg://user?id={}) 🙋‍♂️\n\nIam A Bot Built To Play or Stream Videos In Telegram VoiceChats.\nI Can Stream Any YouTube Video Or A Telegram File Or Even A YouTube Live.</b>"
+HOME_TEXT = "<b>Hai  [{}](tg://user?id={}) 🙋‍♂️\n\nAku Adalah Bot yang Berfungsi Untuk Memainkan dan Stream Video di Telegram Voice Chat.\nAku Bisa Stream Video YouTube, Telegram File bahkan YouTube Live.</b>"
 admin_filter=filters.create(is_admin) 
 
 @Client.on_message(filters.command(['start', f"start@{Config.BOT_USERNAME}"]))
 async def start(client, message):
     buttons = [
         [
-            InlineKeyboardButton('⚙️ Update Channel', url='https://t.me/subin_works'),
-            InlineKeyboardButton('🧩 Source', url='https://github.com/subinps/VCPlayerBot')
+            InlineKeyboardButton('Update Channel', url='https://t.me/kitgbotz'),
+            InlineKeyboardButton('Source Code', url='https://github.com/HariyonoRizki2/VoiceCallTGBot')
         ],
         [
-            InlineKeyboardButton('👨🏼‍🦯 Help', callback_data='help'),
+            InlineKeyboardButton('Bantuan', callback_data='help'),
         ]
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
@@ -44,8 +32,8 @@ async def start(client, message):
 async def show_help(client, message):
     buttons = [
         [
-            InlineKeyboardButton('⚙️ Update Channel', url='https://t.me/subin_works'),
-            InlineKeyboardButton('🧩 Source', url='https://github.com/subinps/VCPlayerBot'),
+            InlineKeyboardButton('Update Channel', url='https://t.me/kitgbotz'),
+            InlineKeyboardButton('Source Code', url='https://github.com/HariyonoRizki2/VoiceCallTGBot'),
         ]
         ]
     reply_markup = InlineKeyboardMarkup(buttons)
@@ -59,12 +47,12 @@ async def show_help(client, message):
 async def repo_(client, message):
     buttons = [
         [
-            InlineKeyboardButton('🧩 Repository', url='https://github.com/subinps/VCPlayerBot'),
-            InlineKeyboardButton('⚙️ Update Channel', url='https://t.me/subin_works'),
+            InlineKeyboardButton('Repository', url='https://github.com/HariyonoRizki2/VoiceCallTGBot'),
+            InlineKeyboardButton('Update Channel', url='https://t.me/kitgbotz'),
             
         ],
     ]
-    await message.reply("<b>The source code of this bot is public and can be found at <a href=https://github.com/subinps/VCPlayerBot>VCPlayerBot.</a>\nYou can deploy your own bot and use in your group.\n\nFeel free to star☀️ the repo if you liked it 🙃.</b>", reply_markup=InlineKeyboardMarkup(buttons))
+    await message.reply("<b>Source Code Bot Ini Publik, Dan Dapat Ditemukan di <a href=https://github.com/HariyonoRizki2/VoiceCallTGBot>VoiceCallTGBot.</a>\nKamu Dapat Membuat Botmu Sendiri dan gunakan di Grubmu.\n\nJangan Lupa Kasih Stars☀️ Ke Repo Ini Jika Kamu Menyukainya🙃.</b>", reply_markup=InlineKeyboardMarkup(buttons))
 
 @Client.on_message(filters.command(['restart', 'update', f"restart@{Config.BOT_USERNAME}", f"update@{Config.BOT_USERNAME}"]) & admin_filter)
 async def update_handler(client, message):
