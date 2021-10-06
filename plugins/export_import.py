@@ -1,17 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (C) @subinps
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Affero General Public License for more details.
-
-# You should have received a copy of the GNU Affero General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# Copyright (C) @HariyonoRizki2
 
 from utils import get_buttons, is_admin, get_playlist_str, shuffle_playlist, import_play_list
 from pyrogram import Client, filters
@@ -27,12 +15,12 @@ admin_filter=filters.create(is_admin)
 @Client.on_message(filters.command(["export", f"export@{Config.BOT_USERNAME}"]) & admin_filter & (filters.chat(Config.CHAT) | filters.private))
 async def export_play_list(client, message: Message):
     if not Config.playlist:
-        await message.reply_text("Playlist is Empty")
+        await message.reply_text("Playlist Kosong")
         return
     file=f"{message.chat.id}_{message.message_id}.json"
     with open(file, 'w+') as outfile:
         json.dump(Config.playlist, outfile, indent=4)
-    await client.send_document(chat_id=message.chat.id, document=file, file_name="PlayList.json", caption=f"Playlist\n\nNumber Of Songs: <code>{len(Config.playlist)}</code>\n\nJoin [XTZ Bots](https://t.me/subin_works)")
+    await client.send_document(chat_id=message.chat.id, document=file, file_name="PlayList.json", caption=f"Playlist\n\nNomor Urut Lagu: <code>{len(Config.playlist)}</code>\n\nJoin [KITGBOTZ](https://t.me/kitgbotz)")
     try:
         os.remove(file)
     except:
@@ -42,13 +30,13 @@ async def export_play_list(client, message: Message):
 async def import_playlist(client, m: Message):
     if m.reply_to_message is not None and m.reply_to_message.document:
         if m.reply_to_message.document.file_name != "PlayList.json":
-            k=await m.reply("Invalid PlayList file given. Use @GetPlayListBot to get a playlist file. Or Export your current Playlist using /export.")
+            k=await m.reply("Playlist Invalid. Gunakan @GetPlayListBot untuk Mendapatkan File Playlist. Atau Export Playlistmu Sebelumnya Menggunakan /export.")
             return
         myplaylist=await m.reply_to_message.download()
-        status=await m.reply("Trying to get details from playlist.")
+        status=await m.reply("Mencoba Mendapatkan Detail dari Playlist.")
         n=await import_play_list(myplaylist)
         if not n:
-            await status.edit("Errors Occured while importing playlist.")
+            await status.edit("Terjadi Error saat Export Playlist.")
             return
         if Config.SHUFFLE:
             await shuffle_playlist()
@@ -60,4 +48,4 @@ async def import_playlist(client, m: Message):
         else:
             await status.delete()
     else:
-        await m.reply("No playList file given. Use @GetPlayListBot  or search for a playlist in @DumpPlaylist to get a playlist file.")
+        await m.reply("Playlist Tidak ada Isinya. Gunakan @GetPlayListBot  atau cari playlist di @DumpPlaylist untuk mendapatkan file playlist.")
