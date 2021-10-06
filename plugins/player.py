@@ -1,17 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (C) @subinps
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Affero General Public License for more details.
-
-# You should have received a copy of the GNU Affero General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# Copyright (C) @HariyonoRizki2
 
 from utils import download, get_admins, is_admin, get_buttons, get_link, import_play_list, leave_call, play, get_playlist_str, send_playlist, shuffle_playlist, start_stream, stream_from_link
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
@@ -46,7 +34,7 @@ async def add_to_playlist(_, message: Message):
         m_video = message.reply_to_message.document
         type='video'
         if not "video" in m_video.mime_type:
-            return await msg.edit("The given file is invalid")
+            return await msg.edit("File yang Diberikan Invalid")
     else:
         if message.reply_to_message:
             link=message.reply_to_message.text
@@ -67,7 +55,7 @@ async def add_to_playlist(_, message: Message):
                 type="query"
                 ysearch=query
         else:
-            await message.reply_text("You Didn't gave me anything to play.Reply to a video or a youtube link.")
+            await message.reply_text("Kamu tidak Memberiku Apa-Apa untuk diputar.Balas dengan video atau YouTube Link.")
             return
     user=f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
     if type=="video":
@@ -89,7 +77,7 @@ async def add_to_playlist(_, message: Message):
                 title = results[0]["title"][:40]
             except Exception as e:
                 await msg.edit(
-                    "Song not found.\nTry inline mode.."
+                    "Lagu tidak ditemukan.\nTry inline mode.."
                 )
                 LOGGER.error(str(e))
                 return
