@@ -1,17 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (C) @subinps
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Affero General Public License for more details.
-
-# You should have received a copy of the GNU Affero General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# Copyright (C) @HariyonoRizki2
 
 from utils import get_playlist_str, get_admins, is_admin, restart_playout, skip, pause, resume, volume, get_buttons, is_admin
 from pyrogram import Client, filters
@@ -44,7 +32,7 @@ async def player(client, message):
 @Client.on_message(filters.command(["skip", f"skip@{Config.BOT_USERNAME}"]) & admin_filter & (filters.chat(Config.CHAT) | filters.private))
 async def skip_track(_, m: Message):
     if not Config.playlist:
-        await m.reply("Playlist is Empty.\nLive Streaming.")
+        await m.reply("Playlist Kosong.\nLive Streaming.")
         return
     if len(m.command) == 1:
         await skip()
@@ -56,9 +44,9 @@ async def skip_track(_, m: Message):
             for i in items:
                 if 2 <= i <= (len(Config.playlist) - 1):
                     Config.playlist.pop(i)
-                    await m.reply(f"Succesfully Removed from Playlist- {i}. **{Config.playlist[i][1]}**")
+                    await m.reply(f"Berhasil Menghapus dari Playlist- {i}. **{Config.playlist[i][1]}**")
                 else:
-                    await m.reply(f"You Cant Skip First Two Songs- {i}")
+                    await m.reply(f"Kamu Tidak Dapat Melawati Dua lagu Awal- {i}")
         except (ValueError, TypeError):
             await m.reply_text("Invalid input")
     pl=await get_playlist_str()
@@ -70,20 +58,20 @@ async def skip_track(_, m: Message):
 @Client.on_message(filters.command(["pause", f"pause@{Config.BOT_USERNAME}"]) & admin_filter & (filters.chat(Config.CHAT) | filters.private))
 async def pause_playing(_, m: Message):
     if Config.PAUSE:
-        return await m.reply("Already Paused")
+        return await m.reply("Telah Terjeda")
     if not Config.CALL_STATUS:
-        return await m.reply("Not Playing anything.")
-    await m.reply("Paused Video Call")
+        return await m.reply("Tidak Memutar Apapun.")
+    await m.reply("Voice Call Terjeda")
     await pause()
     
 
 @Client.on_message(filters.command(["resume", f"resume@{Config.BOT_USERNAME}"]) & admin_filter & (filters.chat(Config.CHAT) | filters.private))
 async def resume_playing(_, m: Message):
     if not Config.PAUSE:
-        return await m.reply("Nothing paused to resume")
+        return await m.reply("Tidak ada Yang Terjeda untuk Dilanjutkan")
     if not Config.CALL_STATUS:
-        return await m.reply("Not Playing anything.")
-    await m.reply("Resumed Video Call")
+        return await m.reply("Tidak Memutar Apapun.")
+    await m.reply("Voice Call Dilanjutkan")
     await resume()
     
 
@@ -91,17 +79,17 @@ async def resume_playing(_, m: Message):
 @Client.on_message(filters.command(['volume', f"volume@{Config.BOT_USERNAME}"]) & admin_filter & (filters.chat(Config.CHAT) | filters.private))
 async def set_vol(_, m: Message):
     if not Config.CALL_STATUS:
-        return await m.reply("Not Playing anything.")
+        return await m.reply("Tidak Memutar Apapun.")
     if len(m.command) < 2:
-        await m.reply_text('You forgot to pass volume (1-200).')
+        await m.reply_text('kamu lupa menyetel volume (1-200).')
         return
-    await m.reply_text(f"Volume set to {m.command[1]}")
+    await m.reply_text(f"Volume diatur menjadi {m.command[1]}")
     await volume(int(m.command[1]))
     
 
 @Client.on_message(filters.command(["replay", f"replay@{Config.BOT_USERNAME}"]) & admin_filter & (filters.chat(Config.CHAT) | filters.private))
 async def replay_playout(client, m: Message):
     if not Config.CALL_STATUS:
-        return await m.reply("Not Playing anything.")
-    await m.reply_text(f"Replaying from begining")
+        return await m.reply("Tidak Memutar Apapun.")
+    await m.reply_text(f"Mengulang Dari Awal")
     await restart_playout()
